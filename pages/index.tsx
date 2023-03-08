@@ -5,54 +5,48 @@ import styles from '../styles/Home.module.css';
 import Image from 'next/image';
 import Link from 'next/link';
 import { getReleases } from '../lib/GetReleases';
+import { getArtistETH } from '../lib/GetArtistETH';
 import NFTCard from '../components/NFTCard';
 
 const Home: NextPage = () => {
   const [NFTs, setNFTs] = useState<any[]>([]);
   const [sum, setSum] = useState(0);
-  const projectSymbol1 = "RCGS1";
-  const projectSymbol2 = "RBEP1";
+  const address = "arama.eth";
 
   useEffect(() => {
     async function loadData() {
-      let nfts = await getReleases(projectSymbol1, projectSymbol2)
+      let nfts = await getArtistETH(address)
       if (nfts && nfts.length > 0) {
         let sorted = nfts.sort((a,b) => b.data.totalSupply - a.data.totalSupply);
         let total = nfts.reduce((acc, curr) => acc + curr.data.totalSupply, 0);
         setNFTs(sorted);
         setSum(total);
+        console.log(nfts);
+        
       }
     }
     loadData();
+    
   }, []);
 
   return <>
     <div className={`${styles.container} min-h-screen`}>
       {/* set metadata; reminder to also clear out the Burble images from public/images */}
       <Head>
-        <title>Mint Decent</title>
+        <title>Arama.eth Decent Drops</title>
         <meta
           name="description"
-          content='Custom mint site by decent.xyz for creators to easily deploy customizable minting sites.'
+          content='Custom mint site for Arama.eth'
         />
         <link rel="icon" href="/images/decent-icon.png" />
       </Head>
 
-      <main className='sm:pt-32 pt-20'>
-        <div className='pb-8 px-12 text-lg'>
-          <h1 className='w-full sm:text-5xl text-3xl pb-4'>Reveel Creator Grants Submissions</h1>
-          <p className='py-2'>Total Votes: <b>{sum}</b></p>
-          <p className='py-b'>Current Grant Recipients:
-            {NFTs.length > 0 &&
-            <ul className='pl-4'>
-              <li>1. <b>{NFTs[0]?.data.name}</b>: <span className='text-violet-500'>$4,000 USDC</span></li>
-              <li>2. <b>{NFTs[1]?.data.name}</b>: <span className='text-violet-500'>$750 USDC</span></li>
-              <li>3. <b>{NFTs[2]?.data.name}</b>: <span className='text-violet-500'>$250 USDC</span></li>
-            </ul>
-            }
-          </p>
+      <main className='pt-20 sm:pt-32'>
+        <div className='px-12 pb-8 text-lg'>
+          <h1 className='w-full pb-4 text-3xl sm:text-5xl'>Arama.eth Releases</h1>
+
         </div>
-        <div className='flex flex-wrap gap-12 justify-center pt-8'>
+        <div className='flex flex-wrap justify-center gap-12 pt-8'>
           {NFTs.map((nft, i) => {
             return (
               <div key={i} className='relative'>
@@ -68,14 +62,14 @@ const Home: NextPage = () => {
                   mimeType={nft.mimeType}
                   animationUrl={nft.metadata?.animation_url}
                 />
-                <p className="absolute top-4 left-4 text-2xl text-white font-bold">{i+1}</p>
+                <p className="absolute text-2xl font-bold text-white top-4 left-4">{i+1}</p>
               </div>
             );
           })}
         </div>
       </main>
     </div>
-    <footer className='mt-8 py-4 bg-black text-white justify-center flex items-center'>
+    <footer className='flex items-center justify-center py-4 mt-8 text-white bg-black'>
     <p className='pr-2 tracking-widest text-sm font-[400]'>Powered by </p>
     <Link href="http://decent.xyz/" className='pt-1'>
         <Image src='/images/decent.png' height={12} width={85} alt='Decent 💪' />

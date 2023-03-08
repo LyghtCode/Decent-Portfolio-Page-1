@@ -30,7 +30,7 @@ const { chains, provider } = configureChains(
 );
 
 const { connectors } = getDefaultWallets({
-  appName: 'My RainbowKit App',
+  appName: 'LyghtCodes Artist Mint Page',
   chains
 });
 
