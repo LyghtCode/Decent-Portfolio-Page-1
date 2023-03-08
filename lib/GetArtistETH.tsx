@@ -17,10 +17,8 @@ export const getArtistETH = async (address: string) => {
     });
     let projectNFTs = [];
     for (let i = 0; i < nfts.data.length; i++) {
-      // if (nfts.data[i].data.symbol === address) {
         projectNFTs.push(nfts.data[i]);
         console.log(nfts.data[i])
-      // }
     }
     
     return projectNFTs;

@@ -20,6 +20,7 @@ import {
   playerReducer,
 } from "@decent.xyz/ux-components";
 import { useReducer } from 'react';
+import "@fontsource/genos";
 
 const { chains, provider } = configureChains(
   [mainnet],
